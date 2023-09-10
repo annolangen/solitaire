@@ -110,14 +110,13 @@ function solve(position: Position, board: Board): Move[] {
 }
 
 // Returns a string representation of the moves.
-function movesToString(moves: Move[]): string {
-  return moves
+const movesToString = (moves: Move[]) =>
+  moves
     .map(
       ({ start, destination }) =>
         `${start.row}, ${start.col} -> ${destination.row}, ${destination.col}`
     )
     .join("\n");
-}
 
 const board = makeBoard();
 const position = fullBoardWithVacancyAt(12);
