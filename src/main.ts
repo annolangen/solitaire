@@ -50,15 +50,15 @@ interface Move {
 
 // Returns possible moves given a board and a position.
 function* possibleMoves(position: Position, { grid }: Board): Generator<Move> {
-  type Direction = (x: Hole) => Hole;
-
   for (const row of grid) {
     for (const start of row) {
       if (hasPeg(position, start)) {
-        for (const direction of directions(start)) {
-          const middle = direction(start);
+        for (const { rowDelta, colDelta } of directions(start)) {
+          const neighbor = ({ row, col }: Hole) =>
+            grid[row + rowDelta][col + colDelta];
+          const middle = neighbor(start);
           if (isEmpty(position, middle)) continue;
-          const destination = direction(middle);
+          const destination = neighbor(middle);
           if (hasPeg(position, destination)) continue;
           const mask =
             (1 << start.index) | (1 << middle.index) | (1 << destination.index);
@@ -73,23 +73,14 @@ function* possibleMoves(position: Position, { grid }: Board): Generator<Move> {
     }
   }
 
-  // Returns possible directions to jump from a hole.
-  function* directions({ row, col }: Hole): Generator<Direction> {
-    if (col > 1) {
-      yield ({ row, col }) => grid[row][col - 1];
-    }
-    if (col + 2 <= row) {
-      yield ({ row, col }) => grid[row][col + 1];
-    }
-    if (row > 1 && col < row - 2) {
-      yield ({ row, col }) => grid[row - 1][col];
-    }
-    if (row > 1 && col > 1) {
-      yield ({ row, col }) => grid[row - 1][col - 1];
-    }
+  function* directions({ row, col }: Hole) {
+    if (col > 1) yield { rowDelta: 0, colDelta: -1 };
+    if (col + 2 <= row) yield { rowDelta: 0, colDelta: 1 };
+    if (row > 1 && col < row - 2) yield { rowDelta: -1, colDelta: 0 };
+    if (row > 1 && col > 1) yield { rowDelta: -1, colDelta: -1 };
     if (row < N - 2) {
-      yield ({ row, col }) => grid[row + 1][col];
-      yield ({ row, col }) => grid[row + 1][col + 1];
+      yield { rowDelta: 1, colDelta: 0 };
+      yield { rowDelta: 1, colDelta: 1 };
     }
   }
 }
