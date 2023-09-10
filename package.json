@@ -1,0 +1,25 @@
+{
+  "name": "solitaire",
+  "description": "Simple Solitaire app",
+  "version": "1.0.0",
+  "devDependencies": {
+    "jest": "^29.6.2",
+    "parcel": "^2.9.3",
+    "prettier": "^3.0.1"
+  },
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build --public-url ./ src/index.html",
+    "format": "prettier --write \"src/**/*.{js,ts,html}\"",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "deploy": "your-deploy-command",
+    "build-dev": "npm run format && npm run build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lit-html": "^2.8.0"
+  }
+}
