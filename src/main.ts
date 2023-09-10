@@ -118,7 +118,4 @@ const movesToString = (moves: Move[]) =>
     )
     .join("\n");
 
-const board = makeBoard();
-const position = fullBoardWithVacancyAt(12);
-const moves = solve(position, board);
-console.log(movesToString(moves));
+console.log(movesToString(solve(fullBoardWithVacancyAt(12), makeBoard())));
