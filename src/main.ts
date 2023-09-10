@@ -1,3 +1,5 @@
+import { html, svg, render } from "lit-html";
+
 // Number holes along one side of triangle board for 15 hole solitaire.
 const N = 5;
 
@@ -109,4 +111,35 @@ const movesToString = (moves: Move[]) =>
     )
     .join("\n");
 
-console.log(movesToString(solve(fullBoardWithVacancyAt(12), makeBoard())));
+const board = makeBoard();
+console.log(movesToString(solve(fullBoardWithVacancyAt(12), board)));
+
+const mySVGTemplate = svg`
+  <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="2" fill="red" />
+  </svg>
+`;
+
+// Render the SVG content to the DOM
+const container = document.getElementById("container"); // Replace with your container element
+
+const renderBody = () =>
+  render(
+    html`
+      <nav class="main-nav navbar is-light"></nav>
+      <div class="columns">
+        <div class="column is-2"></div>
+        <div class="column">
+          <div style="width:80%">
+            <h3 class="title is-3">15 Hole Triangle Solitaire</h3>
+            <div>See console for solution</div>
+            <div>${mySVGTemplate}</div>
+          </div>
+        </div>
+      </div>
+    `,
+    document.body
+  );
+
+window.onclick = renderBody;
+renderBody();
