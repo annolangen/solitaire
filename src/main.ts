@@ -37,9 +37,9 @@ const hasPeg = ({ bits }: Position, { index }: Hole) => bits & (1 << index);
 const isEmpty = (position: Position, hole: Hole) => !hasPeg(position, hole);
 
 // Returns a full board except for the hole at the given index.
-function fullBoardWithVacancyAt(index: number): Position {
-  return { bits: (1 << index) ^ 0x7fff };
-}
+const fullBoardWithVacancyAt = (index: number) => ({
+  bits: (1 << index) ^ 0x7fff,
+});
 
 interface Move {
   apply(position: Position): Position;
