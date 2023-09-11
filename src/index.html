@@ -6,6 +6,68 @@
       href="https://unpkg.com/bulmaswatch/materia/bulmaswatch.min.css"
     />
     <script type="module" src="main.ts"></script>
+    <style>
+      @keyframes blink1 {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        25%,
+        75% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      @keyframes blink2 {
+        0%,
+        50% {
+          opacity: 0;
+        }
+        25%,
+        75% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      .blinking-peg1 {
+        animation: blink1 2s infinite;
+      }
+
+      .blinking-peg2 {
+        animation: blink2 2s infinite;
+      }
+
+      @keyframes fade-in {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fade-out {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      .fade-in-peg {
+        animation: fade-in 1s ease-out;
+      }
+
+      .fade-out-peg {
+        animation: fade-out 1s ease-out;
+      }
+    </style>
   </head>
   <body></body>
 </html>

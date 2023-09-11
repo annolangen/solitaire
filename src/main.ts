@@ -112,19 +112,27 @@ const movesToString = (moves: Move[]) =>
     .join("\n");
 
 const board = makeBoard();
-console.log(movesToString(solve(fullBoardWithVacancyAt(12), board)));
-
-const mySVGTemplate = svg`
-  <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="40" stroke="black" stroke-width="2" fill="red" />
-  </svg>
-`;
+const position = fullBoardWithVacancyAt(12);
+console.log(movesToString(solve(position, board)));
 
 // Render the SVG content to the DOM
-const container = document.getElementById("container"); // Replace with your container element
+const sin60 = Math.sqrt(0.75);
+const coordinates = ({ row, col }: Hole) => ({
+  cx: (row * -sin60) / 2 + col * sin60 + 2.5,
+  cy: row * 0.5 + 1,
+});
 
-const renderBody = () =>
-  render(
+function circle(hole: Hole) {
+  const { cx, cy } = coordinates(hole);
+  return svg`<circle cx=${cx} cy=${cy} r=".2" fill=${
+    hasPeg(position, hole) ? "teal" : "black"
+  } />`;
+}
+
+function renderBody() {
+  const w = document.getElementById("board");
+  const magnification = w ? Math.min(w.clientWidth, w.clientHeight) * 0.3 : 120;
+  return render(
     html`
       <nav class="main-nav navbar is-light"></nav>
       <div class="columns">
@@ -133,13 +141,23 @@ const renderBody = () =>
           <div style="width:80%">
             <h3 class="title is-3">15 Hole Triangle Solitaire</h3>
             <div>See console for solution</div>
-            <div>${mySVGTemplate}</div>
+            <div style="width:100%;height:400px">
+              ${svg`
+            <svg id="board" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                <g transform="scale(${magnification}, ${magnification})">
+                  ${board.grid.map(row => row.map(circle))}
+                </g>
+              </g>
+            </svg>
+            `}
+            </div>
           </div>
         </div>
       </div>
     `,
     document.body
   );
+}
 
 window.onclick = renderBody;
 renderBody();
